@@ -1,3 +1,4 @@
 {
-  "baseUrl": "http://localhost:8080/cypress/server"
+  "baseUrl": "http://localhost:8080/cypress/server",
+  "video": false
 }
