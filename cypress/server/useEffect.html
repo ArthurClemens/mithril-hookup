@@ -1,0 +1,104 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const hookup = mithrilHookup.hookup;
+
+let renderRunCounts = {
+  mountOnly: 0,
+  onChange: 0,
+};
+let effectRunCount = 0;
+
+const RunCountMountOnly = hookup((vnode, { useState, useEffect }) => {
+  const [effectRunCount, setEffectRunCounts] = useState(0);
+
+  renderRunCounts.mountOnly++;
+  useEffect(
+    () => {
+      setEffectRunCounts(n => n + 1);
+    },
+    []
+  );
+  return m("[data-test-id=run-count-mount-only]", [
+    m("p[data-test-id=effectRunCount]", 
+      `effect called: ${effectRunCount}`
+    ),
+    m("p[data-test-id=renderRunCounts]", 
+      `render called: ${renderRunCounts.mountOnly}`
+    ),
+    m("button[data-test-id=button]", 
+      { onclick: () => {} },
+      "Trigger"
+    ),
+  ]);
+});
+
+const RunCountOnChange = hookup((vnode, { useState, useEffect }) => {
+  const [effectRunCount, setEffectRunCounts] = useState(0);
+  const [someValue, setSomeValue] = useState(0);
+
+  renderRunCounts.mountOnly++;
+  useEffect(
+    () => {
+      setEffectRunCounts(n => n + 1);
+    },
+    [someValue]
+  );
+  return m("[data-test-id=run-count-on-change]", [
+    m("p[data-test-id=effectRunCount]", 
+      `effect called: ${effectRunCount}`
+    ),
+    m("p[data-test-id=renderRunCounts]", 
+      `render called: ${renderRunCounts.mountOnly}`
+    ),
+    m("button[data-test-id=button]", 
+      { onclick: () => setSomeValue(someValue + 1) },
+      "Trigger"
+    ),
+  ]);
+});
+
+const Dark = hookup((vnode, { useState, useEffect }) => {
+  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  useEffect(
+    () => {
+      const className = "dark-mode";
+      const element = document.querySelector("#root");
+      if (darkModeEnabled) {
+        element.classList.add(className);
+      } else {
+        element.classList.remove(className);
+      }
+    },
+    [darkModeEnabled] // Only re-run when value has changed
+  );
+  return m("[data-test-id=dark]", [
+    m("p[data-test-id=darkModeEnabled]", 
+      `Dark mode enabled: ${darkModeEnabled}`
+    ),
+    m("button[data-test-id=button]", 
+      { onclick: () => setDarkModeEnabled(true) },
+      "Set dark mode"
+    ),
+  ]);
+});
+
+const App = {
+  view: () => [
+    m(Dark),
+    m(RunCountMountOnly),
+    m(RunCountOnChange),
+  ]
+}
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>

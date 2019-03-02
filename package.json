@@ -1,0 +1,54 @@
+{
+  "name": "mithril-hookup",
+  "version": "0.0.1",
+  "description": "Hooks for Mithril",
+  "main": "dist/mithril-hookup",
+  "module": "dist/mithril-hookup.mjs",
+  "scripts": {
+    "lint": "eslint ./src",
+    "build": "npm run clean && npm run rollup",
+    "rollup": "./node_modules/rollup/bin/rollup -c ./scripts/rollup.umd.js && ./node_modules/rollup/bin/rollup -c ./scripts/rollup.es.js",
+    "clean": "rimraf dist/js/*",
+    "cypress:open": "cypress open",
+    "server:start": "http-server -p 8080 .",
+    "test": "npm-run-all --parallel server:start cypress:open"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "author": "Arthur Clemens <arthurclemens@gmail.com> (http://visiblearea.com)",
+  "contributors": [
+    "Barney Carroll <barney.carroll@barneycarroll.com> (http://barneycarroll.com/)"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "cypress": "^3.1.5",
+    "http-server": "^0.11.1",
+    "mithril": "2.0.0-rc.4",
+    "mithril-node-render": "2.3.1",
+    "mithril-query": "^2.5.2",
+    "mocha": "^6.0.2",
+    "npm-run-all": "4.1.5",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.4.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-pathmodify": "^1.0.1",
+    "rollup-plugin-terser": "^4.0.4",
+    "rollup-watch": "^4.3.1"
+  }
+}

@@ -1,0 +1,66 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const hookup = mithrilHookup.hookup;
+
+const Simple = hookup((vnode, { useState }) => {
+  const [count, setCount] = useState(vnode.attrs.initialCount);
+  return m("[data-test-id=simple]", [
+    m("p[data-test-id=count]", 
+      `Count: ${count}`
+    )
+  ]);
+});
+
+const WithEffect = hookup((vnode, { useState, useEffect }) => {
+  const [count, setCount] = useState(vnode.attrs.initialCount);
+  // Calling from useEffect will increase the count by 1
+  useEffect(
+    () => {
+      setCount(c => c + 1);
+    },
+    [/* empty array: only run at mount */]
+  );
+  return m("[data-test-id=with-effect]", [
+    m("p[data-test-id=count]", 
+      `Count: ${count}`
+    )
+  ]);
+});
+
+const Interactive = hookup((vnode, { useState }) => {
+  const [count, setCount] = useState(vnode.attrs.initialCount);
+  return m("[data-test-id=interactive]", [
+    m("p[data-test-id=count]", 
+      `Count: ${count}`
+    ),
+    m("button[data-test-id=button]", 
+      { onclick: () => setCount(count + 1) },
+      "Add"
+    ),
+    m("button[data-test-id=fn-button]", 
+      { onclick: () => setCount(c => c + 1) },
+      "Add fn"
+    )
+  ]);
+});
+
+const App = {
+  view: () => [
+    m(Simple, { initialCount: 0 }),
+    m(WithEffect, { initialCount: 100 }),
+    m(Interactive, { initialCount: 1000 })
+  ]
+}
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>
