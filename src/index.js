@@ -1,6 +1,6 @@
 /* global m */
 
-export const hookup = (closure, addHooks) => () => {
+export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   let setup = false;
   
   const states     = [];
@@ -150,7 +150,7 @@ export const hookup = (closure, addHooks) => () => {
       setup = true
     ),
     onupdate: update,
-    onremove: teardown,
+    onremove: teardown
   };
 };
 

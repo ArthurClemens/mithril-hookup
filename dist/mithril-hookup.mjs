@@ -92,7 +92,9 @@ function _nonIterableRest() {
 
 /* global m */
 var hookup = function hookup(closure, addHooks) {
-  return function () {
+  return function ()
+  /* internal vnode, unused */
+  {
     var setup = false;
     var states = [];
     var statesIndex = 0;

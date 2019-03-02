@@ -13,7 +13,7 @@
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "test": "start-server-and-test server:start 8080 cypress:run",
-    "test:interactive": "npm-run-all --parallel server:start cypress:open"
+    "test:i": "npm-run-all --parallel server:start cypress:open"
   },
   "files": [
     "dist",
