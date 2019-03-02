@@ -1,0 +1,63 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const hookup = mithrilHookup.hookup;
+
+const someCallback = () => {
+  return null;
+};
+
+let previousCallback = null;
+
+const Callback = hookup((vnode, { useCallback, useState }) => {
+  const [someValue, setSomeValue] = useState(0);
+  
+  const memoizedCallback = useCallback(
+    () => {
+      return someCallback();
+    },
+    [someValue],
+  );
+
+  return m("[data-test-id=Callback]", [
+    m("h2", "Callback"),
+    m("p", [
+      m("span", "callback reference: "),
+      m("span[data-test-id=callbackReference]", (previousCallback === memoizedCallback).toString())
+    ]),
+    m("button[data-test-id=update]", 
+      { onclick: () => setSomeValue(n => n + 1) },
+      "Trigger update"
+    ),
+    m("button[data-test-id=updatePreviousCallback]", 
+      { onclick: () => {
+        if (previousCallback !== memoizedCallback) {
+          previousCallback = memoizedCallback;
+        }
+      } },
+      "Update previousCallback"
+    ),
+    m("button[data-test-id=render]", 
+      { onclick: () => {} },
+      "Trigger render"
+    ),
+  ]);
+});
+
+const App = {
+  view: () => [
+    m(Callback),
+  ]
+}
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>

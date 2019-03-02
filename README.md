@@ -343,7 +343,7 @@ Returns a memoized callback.
 The function reference is unchanged in next renders (which makes a difference in performance expecially in React), but its return value will not be memoized.
 
 ```javascript
-let previousCallback = null;
+let previousCallback = null
 
 const memoizedCallback = useCallback(
   () => {
