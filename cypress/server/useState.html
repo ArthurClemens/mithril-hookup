@@ -6,9 +6,10 @@
   <script>
 const hookup = mithrilHookup.hookup;
 
-const Simple = hookup((vnode, { useState }) => {
+const InitialValue = hookup((vnode, { useState }) => {
   const [count, setCount] = useState(vnode.attrs.initialCount);
-  return m("[data-test-id=simple]", [
+  return m("[data-test-id=InitialValue]", [
+    m("h2", "InitialValue"),
     m("p[data-test-id=count]", 
       `Count: ${count}`
     )
@@ -24,7 +25,8 @@ const WithEffect = hookup((vnode, { useState, useEffect }) => {
     },
     [/* empty array: only run at mount */]
   );
-  return m("[data-test-id=with-effect]", [
+  return m("[data-test-id=WithEffect]", [
+    m("h2", "WithEffect"),
     m("p[data-test-id=count]", 
       `Count: ${count}`
     )
@@ -33,7 +35,8 @@ const WithEffect = hookup((vnode, { useState, useEffect }) => {
 
 const Interactive = hookup((vnode, { useState }) => {
   const [count, setCount] = useState(vnode.attrs.initialCount);
-  return m("[data-test-id=interactive]", [
+  return m("[data-test-id=Interactive]", [
+    m("h2", "Interactive"),
     m("p[data-test-id=count]", 
       `Count: ${count}`
     ),
@@ -50,7 +53,7 @@ const Interactive = hookup((vnode, { useState }) => {
 
 const App = {
   view: () => [
-    m(Simple, { initialCount: 0 }),
+    m(InitialValue, { initialCount: 1 }),
     m(WithEffect, { initialCount: 100 }),
     m(Interactive, { initialCount: 1000 })
   ]

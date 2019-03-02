@@ -9,10 +9,10 @@ const hookup = mithrilHookup.hookup;
 let renderRunCounts = {
   mountOnly: 0,
   onChange: 0,
+  render: 0,
 };
-let effectRunCount = 0;
 
-const RunCountMountOnly = hookup((vnode, { useState, useEffect }) => {
+const RunCountOnMount = hookup((vnode, { useState, useEffect }) => {
   const [effectRunCount, setEffectRunCounts] = useState(0);
 
   renderRunCounts.mountOnly++;
@@ -22,7 +22,8 @@ const RunCountMountOnly = hookup((vnode, { useState, useEffect }) => {
     },
     []
   );
-  return m("[data-test-id=run-count-mount-only]", [
+  return m("[data-test-id=RunCountOnMount]", [
+  m("h2", "RunCountOnMount"),
     m("p[data-test-id=effectRunCount]", 
       `effect called: ${effectRunCount}`
     ),
@@ -31,7 +32,7 @@ const RunCountMountOnly = hookup((vnode, { useState, useEffect }) => {
     ),
     m("button[data-test-id=button]", 
       { onclick: () => {} },
-      "Trigger"
+      "Trigger render"
     ),
   ]);
 });
@@ -40,28 +41,55 @@ const RunCountOnChange = hookup((vnode, { useState, useEffect }) => {
   const [effectRunCount, setEffectRunCounts] = useState(0);
   const [someValue, setSomeValue] = useState(0);
 
-  renderRunCounts.mountOnly++;
+  renderRunCounts.onChange++;
   useEffect(
     () => {
       setEffectRunCounts(n => n + 1);
     },
     [someValue]
   );
-  return m("[data-test-id=run-count-on-change]", [
+  return m("[data-test-id=RunCountOnChange]", [
+    m("h2", "RunCountOnChange"),
     m("p[data-test-id=effectRunCount]", 
       `effect called: ${effectRunCount}`
     ),
     m("p[data-test-id=renderRunCounts]", 
-      `render called: ${renderRunCounts.mountOnly}`
+      `render called: ${renderRunCounts.onChange}`
     ),
     m("button[data-test-id=button]", 
       { onclick: () => setSomeValue(someValue + 1) },
-      "Trigger"
+      "Trigger render"
     ),
   ]);
 });
 
-const Dark = hookup((vnode, { useState, useEffect }) => {
+const RunCountOnRender = hookup((vnode, { useState, useEffect }) => {
+  const [effectRunCount, setEffectRunCounts] = useState(0);
+  const [someValue, setSomeValue] = useState(0);
+
+  renderRunCounts.render++;
+  useEffect(
+    () => {
+      setEffectRunCounts(n => n + 1);
+    },
+    [someValue]
+  );
+  return m("[data-test-id=RunCountOnRender]", [
+  m("h2", "RunCountOnRender"),
+    m("p[data-test-id=effectRunCount]", 
+      `effect called: ${effectRunCount}`
+    ),
+    m("p[data-test-id=renderRunCounts]", 
+      `render called: ${renderRunCounts.render}`
+    ),
+    m("button[data-test-id=button]", 
+      { onclick: () => setSomeValue(someValue + 1) },
+      "Trigger render"
+    ),
+  ]);
+});
+
+const SideEffect = hookup((vnode, { useState, useEffect }) => {
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   useEffect(
     () => {
@@ -76,8 +104,9 @@ const Dark = hookup((vnode, { useState, useEffect }) => {
     [darkModeEnabled] // Only re-run when value has changed
   );
   return m("[data-test-id=dark]", [
+    m("h2", "SideEffect"),
     m("p[data-test-id=darkModeEnabled]", 
-      `Dark mode enabled: ${darkModeEnabled}`
+      `SideEffect mode enabled: ${darkModeEnabled}`
     ),
     m("button[data-test-id=button]", 
       { onclick: () => setDarkModeEnabled(true) },
@@ -88,9 +117,10 @@ const Dark = hookup((vnode, { useState, useEffect }) => {
 
 const App = {
   view: () => [
-    m(Dark),
-    m(RunCountMountOnly),
+    m(SideEffect),
+    m(RunCountOnMount),
     m(RunCountOnChange),
+    m(RunCountOnRender),
   ]
 }
 
