@@ -425,6 +425,12 @@ const Counter = hookup(
 m(Counter, { initialCount: 0 })
 ```
 
+
+## Size
+
+1.3 Kb gzipped
+
+
 ## Compatibility
 
 Tested with Mithril 1.1.6 and Mithril 2.x.
