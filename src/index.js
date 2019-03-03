@@ -100,7 +100,6 @@ export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   
   const useRef = initialValue => {
     // A ref is a persisted object that will not be updated
-    // Update the ref by setting its `current` property
     const [value] = updateState({ current: initialValue });
     return value;
   };
