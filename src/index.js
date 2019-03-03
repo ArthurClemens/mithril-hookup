@@ -10,7 +10,7 @@ export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   let depsIndex    = 0;
   
   const updates    = [];
-  const teardowns  = new Map; // keep track of teardowns even when the update was run only once
+  const teardowns  = new Map; // Keep track of teardowns even when the update was run only once
   
   const scheduleRender = m.redraw;
   
@@ -39,12 +39,11 @@ export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
     if (shouldRecompute) {
       const runCallbackFn = () => {
         const teardown = fn();
-        // A callback may return a function
-        // If any, add it to the teardowns
+        // A callback may return a function. If any, add it to the teardowns:
         if (typeof teardown === "function") {
           // Store this this function to be called at unmount
           teardowns.set(fn, teardown);
-          // Call re-render at least once
+          // At unmount, call re-render at least once
           teardowns.set("_", scheduleRender);
         }
       };
@@ -91,24 +90,23 @@ export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
       : initialArg;
     const [state, setState] = updateState(initialState);
     const dispatch = action =>
-      setState(
-        // Next state:
+      setState( // Next state:
         reducer(state, action)
       );
     return [state, dispatch];
   };
   
   const useRef = initialValue => {
-    // A ref is a persisted object that will not be updated
+    // A ref is a persisted object that will not be updated, so it has no setter
     const [value] = updateState({ current: initialValue });
     return value;
   };
   
   const useMemo = (fn, deps) => {
     const shouldRecompute = updateDeps(deps);
-    const [memoized, setMemoized] = setup
-      ? updateState()
-      : updateState(fn());
+    const [memoized, setMemoized] = !setup
+      ? updateState(fn())
+      : updateState();
     if (setup && shouldRecompute) {
       setMemoized(fn());
     }
@@ -120,8 +118,8 @@ export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   
   const defaultHooks = {
     useState,
-    useEffect: effect(),
-    useLayoutEffect: effect(true),
+    useEffect: effect(true),
+    useLayoutEffect: effect(),
     useReducer,
     useRef,
     useMemo,

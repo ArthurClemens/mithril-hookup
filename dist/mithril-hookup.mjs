@@ -101,7 +101,7 @@ var hookup = function hookup(closure, addHooks) {
     var depsStates = [];
     var depsIndex = 0;
     var updates = [];
-    var teardowns = new Map(); // keep track of teardowns even when the update was run only once
+    var teardowns = new Map(); // Keep track of teardowns even when the update was run only once
 
     var scheduleRender = m.redraw;
 
@@ -132,12 +132,11 @@ var hookup = function hookup(closure, addHooks) {
 
         if (shouldRecompute) {
           var runCallbackFn = function runCallbackFn() {
-            var teardown = fn(); // A callback may return a function
-            // If any, add it to the teardowns
+            var teardown = fn(); // A callback may return a function. If any, add it to the teardowns:
 
             if (typeof teardown === "function") {
               // Store this this function to be called at unmount
-              teardowns.set(fn, teardown); // Call re-render at least once
+              teardowns.set(fn, teardown); // At unmount, call re-render at least once
 
               teardowns.set("_", scheduleRender);
             }
@@ -200,8 +199,7 @@ var hookup = function hookup(closure, addHooks) {
     };
 
     var useRef = function useRef(initialValue) {
-      // A ref is a persisted object that will not be updated
-      // Update the ref by setting its `current` property
+      // A ref is a persisted object that will not be updated, so it has no setter
       var _updateState3 = updateState({
         current: initialValue
       }),
@@ -214,7 +212,7 @@ var hookup = function hookup(closure, addHooks) {
     var useMemo = function useMemo(fn, deps) {
       var shouldRecompute = updateDeps(deps);
 
-      var _ref = setup ? updateState() : updateState(fn()),
+      var _ref = !setup ? updateState(fn()) : updateState(),
           _ref2 = _slicedToArray(_ref, 2),
           memoized = _ref2[0],
           setMemoized = _ref2[1];
@@ -234,8 +232,8 @@ var hookup = function hookup(closure, addHooks) {
 
     var defaultHooks = {
       useState: useState,
-      useEffect: effect(),
-      useLayoutEffect: effect(true),
+      useEffect: effect(true),
+      useLayoutEffect: effect(),
       useReducer: useReducer,
       useRef: useRef,
       useMemo: useMemo,

@@ -9,19 +9,23 @@ const hookup = mithrilHookup.hookup;
 const DomElementSize = hookup((vnode, { useState, useLayoutEffect, useRef }) => {
   const [elementSize, setElementSize] = useState(100);
   const [measuredHeight, setMeasuredHeight] = useState(0);
+  const [inited, setInited] = useState(false);
   const domElement = useRef();
 
   useLayoutEffect(
     () => {
-      setMeasuredHeight(domElement.current.offsetHeight)
+      domElement.current && setMeasuredHeight(domElement.current.offsetHeight)
     },
-    [elementSize]
+    [elementSize, inited]
   )
   return m("[data-test-id=DomElementSize]", [
     m("h2", "DomElementSize"),
     m("div", 
       {
-        oncreate: vnode => domElement.current = vnode.dom,
+        oncreate: vnode => (
+          domElement.current = vnode.dom,
+          setInited(true)
+        ),
         style: {
           width: `${elementSize}px`,
           height: `${elementSize}px`,

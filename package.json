@@ -1,6 +1,6 @@
 {
   "name": "mithril-hookup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hooks for Mithril",
   "main": "dist/mithril-hookup",
   "module": "dist/mithril-hookup.mjs",

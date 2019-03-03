@@ -1,0 +1,62 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const hookup = mithrilHookup.hookup;
+
+const timings = {
+  useEffect: undefined,
+  useLayoutEffect: undefined,
+};
+
+const EffectTimings = hookup((vnode, { useEffect, useLayoutEffect }) => {
+
+  useLayoutEffect(
+    () => {
+      timings.useLayoutEffect = new Date().getTime();
+    },
+    []
+  );
+
+  useEffect(
+    () => {
+      timings.useEffect = new Date().getTime();
+    },
+    []
+  );
+  
+  return m("[data-test-id=EffectTimings]", [
+    m("h2", "EffectTimings"),
+    timings.useEffect && m("p", [
+      m("div", "useEffect: "),
+      m("div[data-test-id=useEffect]", timings.useEffect.toString())
+    ]),
+    timings.useLayoutEffect && m("p", [
+      m("div", "useLayoutEffect: "),
+      m("div[data-test-id=useLayoutEffect]", timings.useLayoutEffect.toString())
+    ]),
+    m("button[data-test-id=button]", 
+      { onclick: () => {} },
+      "Trigger render"
+    ),
+  ]);
+});
+
+
+
+const App = {
+  view: () => [
+    m(EffectTimings),
+  ]
+}
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>

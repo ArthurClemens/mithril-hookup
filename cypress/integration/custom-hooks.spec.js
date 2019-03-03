@@ -1,9 +1,9 @@
 /* global cy, describe, before, it */
 
-describe("customHooks", () => {
+describe("custom hooks", () => {
 
   before(() => {
-    cy.visit("/customHooks");
+    cy.visit("/custom-hooks");
   });
 
   it("should use a custom hook counter function", () => {

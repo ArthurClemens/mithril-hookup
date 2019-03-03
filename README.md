@@ -104,6 +104,9 @@ mithril-hookup follows the React Hooks API:
 * With an array with variables: will only run whenever one of the variables has changed value (Mithril lifecycle function [onupdate](https://mithril.js.org/lifecycle-methods.html#onupdate)).
 
 
+Note that effect hooks do not cause a re-render themselves.
+
+
 ### Cleaning up
 
 If a hook function returns a function, that function is called at unmount (Mithril lifecycle function [onremove](https://mithril.js.org/lifecycle-methods.html#onremove)).
