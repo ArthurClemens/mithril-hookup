@@ -426,9 +426,13 @@ m(Counter, { initialCount: 0 })
 ```
 
 
-## Size
+## Omitted hooks
 
-1.3 Kb gzipped
+These React hooks make little sense with Mithril and are not included:
+
+* `useContext`
+* `useImperativeHandle`
+* `useDebugValue`
 
 
 ## Compatibility
@@ -436,9 +440,14 @@ m(Counter, { initialCount: 0 })
 Tested with Mithril 1.1.6 and Mithril 2.x.
 
 
+## Size
+
+1.3 Kb gzipped
+
+
 ## History
 
-* First implementation: Barney Carroll (https://twitter.com/barneycarroll/status/1059865107679928320)
+* Initial implementation: Barney Carroll (https://twitter.com/barneycarroll/status/1059865107679928320)
 * Updated and enhanced by Arthur Clemens
 
 
