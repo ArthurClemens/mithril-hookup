@@ -373,8 +373,8 @@ const customHooks = ({ useState /* or other default hooks */ }) => ({
     const [count, setCount] = useState(initialValue)
     return [
       count,                      // value
-      () => setCount(count + 1),  // increaseCount
-      () => setCount(count - 1)   // decreaseCount
+      () => setCount(count + 1),  // increment
+      () => setCount(count - 1)   // decrement
     ]
   }
 })
@@ -397,7 +397,7 @@ const Counter = hookup(
     vnode,
     { useCount }
   ) => {
-    const [count, increaseCount, decreaseCount] = useCount(0)
+    const [count, increment, decrement] = useCount(0)
     // ...
   },
   customHooks
@@ -413,7 +413,7 @@ const Counter = hookup(
     { useCount }
   ) => {
 
-    const [count, increaseCount, decreaseCount] = useCount(initialCount)
+    const [count, increment, decrement] = useCount(initialCount)
 
     return m("div", [
       m("p", 
@@ -422,13 +422,13 @@ const Counter = hookup(
       m("button", 
         {
           disabled: count === 0,
-          onclick: () => decreaseCount()
+          onclick: () => decrement()
         },
         "Less"
       ),
       ("button", 
         {
-          onclick: () => increaseCount()
+          onclick: () => increment()
         },
         "More"
       )
