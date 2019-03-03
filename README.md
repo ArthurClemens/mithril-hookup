@@ -18,15 +18,12 @@ const Counter = hookup((vnode, { useState }) => {
 
   const [count, setCount] = useState(0)
 
-  return m("div", [
-    m("p", 
-      `Count: ${count}`
-    ),
-    m("button", 
-      { onclick: () => setCount(count + 1) },
-      "More"
-    )
-  ])
+  return [
+    m("div", count),
+    m("button", {
+      onclick: () => setCount(count + 1)
+    }, "More")
+  ]
 })
 ```
 
@@ -46,30 +43,19 @@ import { hookup } from "mithril-hookup"
 
 ## Using hookup
 
-`mithril-hookup` provides wrapper function `hookup` to enhance components with access to hook functions:
-
-```javascript
-import { hookup } from "mithril-hookup"
-
-const HookedComponent = hookup((vnode, hookFunctions) => {
-  // Do something with hook functions
-  // for example: hookFunctions.useState
-  // Return a view:
-  return m("div", "contents")
-})
-```
+`mithril-hookup` provides the wrapper function `hookup` to enhance components with hook functions.
 
 The first parameter passed to `hookup` is a wrapper function - also called a closure - that provides access to the original component vnode and the hook functions:
 
 ```javascript
 hookup(
-  (vnode, hookFunctions) => {} // first parameter
+  (vnode, hookFunctions) => { /* returns a view */}
 )
 ```
 
-Attributes passed to the component can be accessed through the `vnode`.
+Attributes passed to the component can be accessed through `vnode`.
 
-`hookFunctions` is an object that contains the default hook functions: `useState`, `useEffect`, `useReducer`, etcetera, plus [custom hooks](#custom-hooks) (if defined):
+`hookFunctions` is an object that contains the default hooks: `useState`, `useEffect`, `useReducer`, etcetera, plus [custom hooks](#custom-hooks):
 
 ```javascript
 const Counter = hookup((vnode, { useState }) => {
@@ -78,11 +64,10 @@ const Counter = hookup((vnode, { useState }) => {
   const [count, setCount] = useState(initialCount)
 
   return [
-    m("div", `count: ${count}`),
-    m("button", 
-      { onclick: () => setCount(count + 1) },
-      "More"
-    )
+    m("div", count),
+    m("button", {
+      onclick: () => setCount(count + 1)
+    }, "More")
   ]
 })
 
@@ -99,7 +84,7 @@ Mithril's `redraw` is called when the state is initially set, and every time a s
 
 ### With other hooks
 
-Hook functions are always called at first render.
+Hook functions are always called at the first render.
 
 For subsequent renders, an optional second parameter can be passed to define if it should rerun:
 
@@ -112,11 +97,11 @@ useEffect(
 )
 ```
 
-According to the React Hooks API:
+mithril-hookup follows the React Hooks API:
 
-* No second argument: will run every render (Mithril lifecycle function [view](https://mithril.js.org/index.html#components)).
-* An empty array: will only run at mount (Mithril lifecycle function [oncreate](https://mithril.js.org/lifecycle-methods.html#oncreate)).
-* An array with variables: will only run whenever one of the variables has changed value (Mithril lifecycle function [onupdate](https://mithril.js.org/lifecycle-methods.html#onupdate)).
+* Without a second argument: will run every render (Mithril lifecycle function [view](https://mithril.js.org/index.html#components)).
+* With an empty array: will only run at mount (Mithril lifecycle function [oncreate](https://mithril.js.org/lifecycle-methods.html#oncreate)).
+* With an array with variables: will only run whenever one of the variables has changed value (Mithril lifecycle function [onupdate](https://mithril.js.org/lifecycle-methods.html#onupdate)).
 
 
 ### Cleaning up
@@ -328,7 +313,7 @@ const Counter = hookup(
       () => {
         return computeExpensiveValue(count)
       },
-      [count] // only calculate when count is updated
+      [count] // only recalculate when count is updated
     )
     // ...
   }
@@ -365,10 +350,10 @@ if (previousCallback !== memoizedCallback) {
 
 ## Custom hooks
 
-Custom hooks are defined by a function that accepts the default hooks, and returns an object with your custom hook functions:
+Custom hooks are created with a factory function. The function receives the default hooks (automatically), and should return an object with custom hook functions:
 
 ```javascript
-const customHooks = ({ useState /* or other default hooks */ }) => ({
+const customHooks = ({ useState /* or other default hooks required here */ }) => ({
   useCount: (initialValue = 0) => {
     const [count, setCount] = useState(initialValue)
     return [
@@ -389,7 +374,7 @@ hookup(
 )
 ```
 
-The custom hooks are now accessible from the hooked component:
+The custom hooks can now be used from the hooked component:
 
 ```javascript
 const Counter = hookup(
@@ -442,7 +427,7 @@ m(Counter, { initialCount: 0 })
 
 ## Compatibility
 
-Works with Mithril 1.1.6 and Mithril 2.x.
+Tested with Mithril 1.1.6 and Mithril 2.x.
 
 
 ## History
