@@ -8,7 +8,7 @@ import pathmodify from "rollup-plugin-pathmodify";
 const env = process.env;
 export const pkg = JSON.parse(fs.readFileSync("./package.json"));
 const external = Object.keys(pkg.dependencies || {});
-const name = env.MODULE_NAME || "mithril-hookup";
+const name = env.MODULE_NAME;
 
 const globals = {};
 external.forEach(ext => {
