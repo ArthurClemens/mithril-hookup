@@ -57,7 +57,7 @@ The first parameter passed to `hookup` is a wrapper function - also called a clo
 
 ```javascript
 hookup(
-  (vnode, hookFunctions) => { /* returns a view */}
+  (vnode, hookFunctions) => { /* returns a view */ }
 )
 ```
 
