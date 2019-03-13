@@ -1,0 +1,88 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const { hookup, createComponent, withCustomHooks } = mithrilHookup;
+
+const myCustomHooks = ({ useState }) => {
+  // Use a name to access it from hook functions
+  const hooks = {
+    useCounter: () => {
+      // A custom hook that uses another custom hook.
+      const createNewCounter = () => ({
+        id: new Date().getTime(),
+        initialCount: Math.round(Math.random() * 10)
+      });
+      const firstCounter = createNewCounter();
+      const [counters, addCounter, removeCounter] = hooks.useArray([firstCounter]);
+      return [
+        counters,
+        () => addCounter(createNewCounter()),
+        remove => removeCounter(remove)
+      ];
+    },
+    useArray: (initialValue = []) => {
+      const [arr, setArr] = useState(initialValue)
+      return [
+        arr,
+        add => setArr(arr.concat(add)),
+        remove => setArr(arr.filter(item => item !== remove))
+      ]
+    },
+  };
+  return hooks;
+};
+
+const CoreCounter = ({
+  hooks: { useState, useCounter }
+}) => props => {
+  const initialCount = props.initialCount;
+  const [count, setCount] = useState(initialCount);
+  const [counters, addCounter, removeCounter] = useCounter();
+  return m("div[data-test-id=core-counter]", [
+    m("div", m("span[data-test-id=count]", count)),
+    m("button[data-test-id=add-count]", {
+      onclick: () => setCount(count + 1)
+    }, "More"),
+    m("div", m("span[data-test-id=counters]", counters.length)),
+    m("button[data-test-id=add-counter]", {
+      onclick: () => addCounter()
+    }, "Add counter")
+  ]);
+};
+
+const Counter = withCustomHooks(myCustomHooks)(CoreCounter);
+const MithrilCounter = createComponent(Counter);
+
+const CoreSimpleCounter = ({
+  hooks: { useState, useCounter }
+}) => props => {
+  const initialCount = props.initialCount;
+  const [count, setCount] = useState(initialCount);
+  return m("div[data-test-id=core-simple-counter]", [
+    m("div", m("span[data-test-id=count]", count)),
+    m("button[data-test-id=add-count]", {
+      onclick: () => setCount(count + 1)
+    }, "More"),
+  ]);
+};
+
+const MithrilSimpleCounter = createComponent(CoreSimpleCounter);
+
+const App = {
+  view: () => [
+    m(MithrilCounter, { initialCount: 1 }),
+    m(MithrilSimpleCounter, { initialCount: 10 }),
+  ]
+};
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 /* global m */
 
-const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
+export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   let setup = false;
   
   const states     = [];
@@ -154,15 +154,3 @@ const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
 const call = Function.prototype.call.bind(
   Function.prototype.call
 );
-
-const createComponent = component =>
-  hookup((vnode, hooks) => (
-    component({
-      hooks,
-    })(vnode.attrs)
-  ));
-
-const withCustomHooks = customHooks => component => ({ hooks }) =>
-  component({ hooks: { ...hooks, ...customHooks(hooks) } });
-
-export { hookup, createComponent, withCustomHooks };
