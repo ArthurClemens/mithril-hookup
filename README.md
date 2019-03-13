@@ -464,6 +464,34 @@ Tested with Mithril 1.1.6 and Mithril 2.x.
 1.3 Kb gzipped
 
 
+## Supported browsers
+
+Output from `npx browserslist`:
+
+```
+and_chr 71
+and_ff 64
+and_qq 1.2
+and_uc 11.8
+android 67
+baidu 7.12
+chrome 72
+chrome 71
+edge 18
+edge 17
+firefox 65
+firefox 64
+ie 11
+ie_mob 11
+ios_saf 12.0-12.1
+ios_saf 11.3-11.4
+op_mini all
+op_mob 46
+opera 57
+safari 12
+samsung 8.2
+```
+
 ## History
 
 * Initial implementation: Barney Carroll (https://twitter.com/barneycarroll/status/1059865107679928320)
