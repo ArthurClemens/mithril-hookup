@@ -1,3 +1,5 @@
+import m from 'mithril';
+
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -70,7 +72,6 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }
 
-/* global m */
 const hookup = (closure, addHooks) => () =>
 /* internal vnode, unused */
 {
@@ -223,16 +224,11 @@ const hookup = (closure, addHooks) => () =>
 };
 const call = Function.prototype.call.bind(Function.prototype.call);
 
-const hookupComponent = component => hookup((vnode, hooks) => component({
-  hooks
-})(vnode.attrs));
+const hookupComponent = component => hookup((vnode, hooks) => component(_objectSpread({}, vnode.attrs, hooks)));
 
 const withHooks = function withHooks(component) {
   let customHooks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : () => {};
-  return hookupComponent((_ref) => {
-    let hooks = _ref.hooks;
-    return component(_objectSpread({}, hooks, customHooks(hooks)));
-  });
+  return hookupComponent(hooks => component(_objectSpread({}, hooks, customHooks(hooks))));
 };
 
 export { hookup, withHooks };

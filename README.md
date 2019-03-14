@@ -1,36 +1,6 @@
 # mithril-hookup
 
-Use hook functions from the [React Hooks API](https://reactjs.org/docs/hooks-intro.html) in Mithril:
-
-* `useState`
-* `useEffect`
-* `useLayoutEffect`
-* `useReducer`
-* `useRef`
-* `useMemo`
-* `useCallback`
-* and custom hooks
-
-```javascript
-import { withHooks } from "mithril-hookup"
-
-const Counter = ({ useState, initialCount }) => {
-
-  const [count, setCount] = useState(initialCount)
-
-  return [
-    m("div", count),
-    m("button", {
-      onclick: () => setCount(count + 1)
-    }, "More")
-  ]
-}
-
-const HookedCounter = withHooks(Counter)
-
-m(HookedCounter, { initialCount: 1 })
-```
-
+- [Introduction](#introduction)
 - [Online examples](#online-examples)
 - [Usage](#usage)
 - [Hooks and application logic](#hooks-and-application-logic)
@@ -55,6 +25,37 @@ m(HookedCounter, { initialCount: 1 })
 - [History](#history)
 - [License](#license)
 
+
+## Introduction
+
+Use hook functions from the [React Hooks API](https://reactjs.org/docs/hooks-intro.html) in Mithril:
+
+* `useState`
+* `useEffect`
+* `useLayoutEffect`
+* `useReducer`
+* `useRef`
+* `useMemo`
+* `useCallback`
+* and custom hooks
+
+```javascript
+import { withHooks } from "mithril-hookup"
+
+const Counter = ({ useState, initialCount }) => {
+  const [count, setCount] = useState(initialCount)
+  return [
+    m("div", count),
+    m("button", {
+      onclick: () => setCount(count + 1)
+    }, "More")
+  ]
+}
+
+const HookedCounter = withHooks(Counter)
+
+m(HookedCounter, { initialCount: 1 })
+```
 
 ## Online examples
 
@@ -510,7 +511,7 @@ Tested with Mithril 1.1.6 and Mithril 2.x.
 
 ## Size
 
-1.3 Kb gzipped
+1.4 Kb gzipped
 
 
 ## Supported browsers
