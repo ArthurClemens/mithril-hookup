@@ -223,14 +223,16 @@ const hookup = (closure, addHooks) => () =>
 };
 const call = Function.prototype.call.bind(Function.prototype.call);
 
-const createComponent = component => hookup((vnode, hooks) => component({
+const hookupComponent = component => hookup((vnode, hooks) => component({
   hooks
 })(vnode.attrs));
-const withCustomHooks = customHooks => component => (_ref) => {
-  let hooks = _ref.hooks;
-  return component({
-    hooks: _objectSpread({}, hooks, customHooks(hooks))
+
+const withHooks = function withHooks(component) {
+  let customHooks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : () => {};
+  return hookupComponent((_ref) => {
+    let hooks = _ref.hooks;
+    return component(_objectSpread({}, hooks, customHooks(hooks)));
   });
 };
 
-export { hookup, createComponent, withCustomHooks };
+export { hookup, withHooks };

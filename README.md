@@ -12,11 +12,11 @@ Use hook functions from the [React Hooks API](https://reactjs.org/docs/hooks-int
 * and custom hooks
 
 ```javascript
-import { hookup } from "mithril-hookup"
+import { withHooks } from "mithril-hookup"
 
-const Counter = hookup((vnode, { useState }) => {
+const Counter = ({ useState, initialCount }) => {
 
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(initialCount)
 
   return [
     m("div", count),
@@ -24,10 +24,39 @@ const Counter = hookup((vnode, { useState }) => {
       onclick: () => setCount(count + 1)
     }, "More")
   ]
-})
+}
+
+const HookedCounter = withHooks(Counter)
+
+m(HookedCounter, { initialCount: 1 })
 ```
 
-## Examples
+- [Online examples](#online-examples)
+- [Usage](#usage)
+- [Hooks and application logic](#hooks-and-application-logic)
+- [Rendering rules](#rendering-rules)
+  - [With useState](#with-usestate)
+  - [With other hooks](#with-other-hooks)
+  - [Cleaning up](#cleaning-up)
+- [Default hooks](#default-hooks)
+  - [useState](#usestate)
+  - [useEffect](#useeffect)
+  - [useLayoutEffect](#uselayouteffect)
+  - [useReducer](#usereducer)
+  - [useRef](#useref)
+  - [useMemo](#usememo)
+  - [useCallback](#usecallback)
+  - [Omitted hooks](#omitted-hooks)
+- [Custom hooks](#custom-hooks)
+- [`hookup` function](#hookup-function)
+- [Compatibility](#compatibility)
+- [Size](#size)
+- [Supported browsers](#supported-browsers)
+- [History](#history)
+- [License](#license)
+
+
+## Online examples
 
 Editable examples using the [Flems playground](https://flems.io/#0=N4IgZglgNgpgziAXAbVAOwIYFsZJAOgAsAXLKEAGhAGMB7NYmBvAHgBMIA3AAgjYF4AOiABOtWsWEA+FgHoOnKSAC+FdNlyICAKwRU6DJsTwQsAB1oji3YN0LiA1gFcz3ZdzBis3YVgjFCEWgAWntaZzNhAG5BNFiDOGsAQTNXfjtHFwAKWO5uHLQ8vM40WjYYClyi2yc4GABlYgxGNyqASm5+KRsq2VluBOtkaigIagcYNgpuOuIAYVHxyYBdTu5ahqbGLLAMKDq2mMLuERhiJxFC5Cq8quWj5UPY2Kx8LFonBgK8tlpqJxwDHwAEcnDARABPeowWDUYiWHIgADEYgkwjalWOKUiaEOlBAdVhxAg9AQWgAjAA2RAAJhUahAmBweHw1Dgeho9EYzC0KmWVFGaAcZNQjI0eD8ASCUFCmTM+Iu5C0JGIZjgiD6nzMDgA5qzaFhZJLAiEwhEAAIABnw5Jt8ggiSN-hNMrNLnxxAhZk0BOoQTMxlU6mZWmN0vNaBgAA9jFRFXgVWqNbItbr9Yaw9BzTT8NbLcERNR8AAWJ1S6D4XQer0+uB+iABvnKIA):
 
@@ -45,41 +74,7 @@ npm install mithril-hookup
 Use in code:
 
 ```javascript
-import { hookup } from "mithril-hookup"
-```
-
-
-## Using hookup
-
-`mithril-hookup` provides the wrapper function `hookup` to enhance components with hook functions.
-
-The first parameter passed to `hookup` is a wrapper function - also called a closure - that provides access to the original component vnode and the hook functions:
-
-```javascript
-hookup(
-  (vnode, hookFunctions) => { /* returns a view */ }
-)
-```
-
-Attributes passed to the component can be accessed through `vnode`.
-
-`hookFunctions` is an object that contains the default hooks: `useState`, `useEffect`, `useReducer`, etcetera, plus [custom hooks](#custom-hooks):
-
-```javascript
-const Counter = hookup((vnode, { useState }) => {
-  
-  const initialCount = vnode.attrs.initialCount
-  const [count, setCount] = useState(initialCount)
-
-  return [
-    m("div", count),
-    m("button", {
-      onclick: () => setCount(count + 1)
-    }, "More")
-  ]
-})
-
-m(Counter, { initialCount: 0 })
+import { withHooks } from "mithril-hookup"
 ```
 
 
@@ -143,7 +138,7 @@ useEffect(
 At cleanup Mithril's `redraw` is called.
 
 
-## Default hook functions
+## Default hooks
 
 The [React Hooks documentation](https://reactjs.org/docs/hooks-intro.html) provides excellent usage examples for default hooks. Let us suffice here with shorter descriptions.
 
@@ -231,11 +226,7 @@ const counterReducer = (state, action) => {
   }
 }
 
-const Counter = hookup(
-  (
-    { attrs: { initialCount }},
-    { useReducer }
-  ) => {
+const Counter = ({ initialCount, useReducer }) => {
   const initialState = { count: initialCount }
   const [countState, dispatch] = useReducer(counterReducer, initialState)
   const count = countState.count
@@ -250,9 +241,11 @@ const Counter = hookup(
       onclick: () => dispatch({ type: "increment" })
     }, "More")
   ]
-})
+}
 
-m(Counter, { initialCount: 0 })
+const HookedCounter = withHooks(Counter)
+
+m(HookedCounter, { initialCount: 0 })
 ```
 
 
@@ -276,45 +269,42 @@ return [
 To keep track of a value:
 
 ```javascript
-const Timer = hookup(
-  (
-    vnode,
-    { useState, useEffect, useRef }
-  ) => {
-    const [ticks, setTicks] = useState(0)
-    const intervalRef = useRef()
-    
-    const handleCancelClick = () => {
-      clearInterval(intervalRef.current)
-      intervalRef.current = undefined
-    }
+const Timer = ({ useState, useEffect, useRef }) => {
+  const [ticks, setTicks] = useState(0)
+  const intervalRef = useRef()
   
-    useEffect(
-      () => {
-        const intervalId = setInterval(() => {
-          setTicks(ticks => ticks + 1)
-        }, 1000)
-        intervalRef.current = intervalId
-        // Cleanup:
-        return () => {
-          clearInterval(intervalRef.current)
-        }
-      },
-      [/* empty array: only run at mount */]
-    )
-
-    return [
-      m("span", `Ticks: ${ticks}`),
-      m("button", 
-        {
-          disabled: intervalRef.current === undefined,
-          onclick: handleCancelClick
-        },
-        "Cancel"
-      )
-    ]
+  const handleCancelClick = () => {
+    clearInterval(intervalRef.current)
+    intervalRef.current = undefined
   }
-)
+
+  useEffect(
+    () => {
+      const intervalId = setInterval(() => {
+        setTicks(ticks => ticks + 1)
+      }, 1000)
+      intervalRef.current = intervalId
+      // Cleanup:
+      return () => {
+        clearInterval(intervalRef.current)
+      }
+    },
+    [/* empty array: only run at mount */]
+  )
+
+  return [
+    m("span", `Ticks: ${ticks}`),
+    m("button", 
+      {
+        disabled: intervalRef.current === undefined,
+        onclick: handleCancelClick
+      },
+      "Cancel"
+    )
+  ]
+}
+
+const HookedTimer = withHooks(Timer)
 ```
 
 
@@ -323,20 +313,15 @@ const Timer = hookup(
 Returns a memoized value.
 
 ```javascript
-const Counter = hookup(
-  (
-    { attrs: { count }},
-    { useMemo }
-  ) => {
-    const memoizedValue = useMemo(
-      () => {
-        return computeExpensiveValue(count)
-      },
-      [count] // only recalculate when count is updated
-    )
-    // ...
-  }
-)
+const Counter = ({ count, useMemo }) => {
+  const memoizedValue = useMemo(
+    () => {
+      return computeExpensiveValue(count)
+    },
+    [count] // only recalculate when count is updated
+  )
+  // ...
+}
 ```
 
 
@@ -366,6 +351,13 @@ if (previousCallback !== memoizedCallback) {
 }
 ```
 
+### Omitted hooks
+
+These React hooks make little sense with Mithril and are not included:
+
+* `useContext`
+* `useImperativeHandle`
+* `useDebugValue`
 
 ## Custom hooks
 
@@ -384,16 +376,118 @@ const customHooks = ({ useState /* or other default hooks required here */ }) =>
 })
 ```
 
-Pass the custom hooks as second parameter to `hookup`:
+Pass the custom hooks function as second parameter to `withHooks`:
+
+```javascript
+const HookedCounter = withHooks(Counter, customHooks)
+```
+
+The custom hooks can now be used from the component:
+
+```javascript
+const Counter = ({ useCount }) => {
+  const [count, increment, decrement] = useCount(0)
+  // ...
+}
+```
+
+The complete code:
+
+```javascript
+const customHooks = ({ useState }) => ({
+  useCount: (initialValue = 0) => {
+    const [count, setCount] = useState(initialValue)
+    return [
+      count,                      // value
+      () => setCount(count + 1),  // increment
+      () => setCount(count - 1)   // decrement
+    ]
+  }
+})
+
+const Counter = ({ initialCount, useCount }) => {
+
+  const [count, increment, decrement] = useCount(initialCount)
+
+  return m("div", [
+    m("p", 
+      `Count: ${count}`
+    ),
+    m("button", 
+      {
+        disabled: count === 0,
+        onclick: () => decrement()
+      },
+      "Less"
+    ),
+    m("button", 
+      {
+        onclick: () => increment()
+      },
+      "More"
+    )
+  ])
+}
+
+const HookedCounter = withHooks(Counter, customHooks)
+
+m(HookedCounter, { initialCount: 0 })
+```
+
+
+
+## `hookup` function
+
+`withHooks` is a wrapper function around the function `hookup`. It may be useful to know how this function works.
+
+```javascript
+import { hookup } from "mithril-hookup"
+
+const HookedCounter = hookup((vnode, { useState }) => {
+
+  const [count, setCount] = useState(vnode.attrs.initialCount)
+
+  return [
+    m("div", count),
+    m("button", {
+      onclick: () => setCount(count + 1)
+    }, "More")
+  ]
+})
+
+m(HookedCounter, { initialCount: 1 })
+```
+
+The first parameter passed to `hookup` is a wrapper function - also called a closure - that provides access to the original component vnode and the hook functions:
 
 ```javascript
 hookup(
-  (vnode, hookFunctions) => {} // first parameter - hookFunctions will include hooks from customHooks
-  customHooks                  // second parameter
+  (vnode, hookFunctions) => { /* returns a view */ }
 )
 ```
 
-The custom hooks can now be used from the hooked component:
+Attributes passed to the component can be accessed through `vnode`.
+
+`hookFunctions` is an object that contains the default hooks: `useState`, `useEffect`, `useReducer`, etcetera, plus [custom hooks](#custom-hooks):
+
+```javascript
+const Counter = hookup((vnode, { useState }) => {
+  
+  const initialCount = vnode.attrs.initialCount
+  const [count, setCount] = useState(initialCount)
+
+  return [
+    m("div", count),
+    m("button", {
+      onclick: () => setCount(count + 1)
+    }, "More")
+  ]
+})
+
+m(Counter, { initialCount: 0 })
+```
+
+The custom hooks function is passed as second parameter to `hookup`:
 
 ```javascript
 const Counter = hookup(
@@ -407,51 +501,6 @@ const Counter = hookup(
   customHooks
 )
 ```
-
-A more complete example:
-
-```javascript
-const Counter = hookup(
-  (
-    { attrs: { initialCount }},
-    { useCount }
-  ) => {
-
-    const [count, increment, decrement] = useCount(initialCount)
-
-    return m("div", [
-      m("p", 
-        `Count: ${count}`
-      ),
-      m("button", 
-        {
-          disabled: count === 0,
-          onclick: () => decrement()
-        },
-        "Less"
-      ),
-      ("button", 
-        {
-          onclick: () => increment()
-        },
-        "More"
-      )
-    ])
-  },
-  customHooks
-)
-
-m(Counter, { initialCount: 0 })
-```
-
-
-## Omitted hooks
-
-These React hooks make little sense with Mithril and are not included:
-
-* `useContext`
-* `useImperativeHandle`
-* `useDebugValue`
 
 
 ## Compatibility

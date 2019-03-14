@@ -1,11 +1,11 @@
 import { hookup } from "./hookup";
 
-export const createComponent = component =>
+const hookupComponent = component =>
   hookup((vnode, hooks) => (
-    component({
-      hooks,
-    })(vnode.attrs)
+    component({ hooks })(vnode.attrs)
   ));
-
-export const withCustomHooks = customHooks => component => ({ hooks }) =>
-  component({ hooks: { ...hooks, ...customHooks(hooks) } });
+  
+export const withHooks = (component, customHooks = () => {}) =>
+  hookupComponent(
+    ({ hooks }) => component({ ...hooks, ...customHooks(hooks) })
+  );
