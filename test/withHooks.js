@@ -21,7 +21,7 @@ describe("withHooks", function() {
         }, "More")
       ];
     };
-        
+
     const HookedCounter = withHooks(Counter);
 
     return render([

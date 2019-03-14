@@ -6,9 +6,10 @@
   "module": "dist/mithril-hookup.mjs",
   "scripts": {
     "lint": "eslint ./src",
-    "build": "npm run clean && npm run rollup",
+    "build": "npm run clean && npm run rollup && npm run build-test",
     "rollup": "./node_modules/rollup/bin/rollup -c ./scripts/rollup.umd.js && ./node_modules/rollup/bin/rollup -c ./scripts/rollup.es.js",
     "clean": "rimraf dist/js/*",
+    "build-test": "./node_modules/rollup/bin/rollup cypress/server/js/transpiled-source.mjs --file cypress/server/js/transpiled.js --format umd",
     "server:start": "http-server -p 8080 .",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",

@@ -1,5 +1,3 @@
-import m from 'mithril';
-
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -72,6 +70,7 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }
 
+/* global m */
 const hookup = (closure, addHooks) => () =>
 /* internal vnode, unused */
 {
