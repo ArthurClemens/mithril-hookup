@@ -1,6 +1,6 @@
 {
   "name": "mithril-hookup",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Hooks for Mithril",
   "main": "dist/mithril-hookup",
   "module": "dist/mithril-hookup.mjs",
@@ -12,8 +12,9 @@
     "server:start": "http-server -p 8080 .",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
-    "test": "start-server-and-test server:start 8080 cypress:run",
-    "test:i": "npm-run-all --parallel server:start cypress:open"
+    "test:mocha": "mocha",
+    "test:cypress": "start-server-and-test server:start 8080 cypress:run",
+    "test:cypress:i": "npm-run-all --parallel server:start cypress:open"
   },
   "files": [
     "dist",
@@ -54,5 +55,7 @@
     "rollup-watch": "^4.3.1",
     "start-server-and-test": "^1.7.11"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "mithril": "2.0.0-rc.4"
+  }
 }
