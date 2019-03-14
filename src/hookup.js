@@ -1,4 +1,4 @@
-import m from "mithril";
+/* global m */
 
 export const hookup = (closure, addHooks) => (/* internal vnode, unused */) => {
   let setup = false;
