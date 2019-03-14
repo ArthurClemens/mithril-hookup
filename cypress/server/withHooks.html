@@ -35,8 +35,7 @@ const myCustomHooks = ({ useState }) => {
   return hooks;
 };
 
-const Counter = ({ useState, useCounter }) => props => {
-  const initialCount = props.initialCount;
+const Counter = ({ initialCount, useState, useCounter }) => {
   const [count, setCount] = useState(initialCount);
   const [counters, addCounter, removeCounter] = useCounter();
   return m("div[data-test-id=counter]", [
@@ -51,8 +50,7 @@ const Counter = ({ useState, useCounter }) => props => {
   ]);
 };
 
-const SimpleCounter = ({ useState, useCounter }) => props => {
-  const initialCount = props.initialCount;
+const SimpleCounter = ({ initialCount, useState, useCounter }) => {
   const [count, setCount] = useState(initialCount);
   return m("div[data-test-id=simple-counter]", [
     m("div", m("span[data-test-id=count]", count)),
