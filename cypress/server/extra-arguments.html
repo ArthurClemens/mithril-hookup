@@ -1,0 +1,35 @@
+<html>
+<body>
+  <div id="root"></div>
+  <script src="./js/mithril@1.1.6.js"></script>
+  <script src="../../dist/mithril-hookup.js"></script>
+  <script>
+const { withHooks } = mithrilHookup;
+
+const Counter = ({ initialCount, useState, extra }) => {
+  const [count, setCount] = useState(initialCount);
+  return m("div[data-test-id=counter]", [
+    m("div", m("span[data-test-id=extra]", extra)),
+    m("div", m("span[data-test-id=count]", count)),
+    m("button[data-test-id=add-count]", {
+      onclick: () => setCount(count + 1)
+    }, "More"),
+  ]);
+};
+
+const HookedCounter = withHooks(Counter, null, { initialCount: 1, extra: "extra" });
+
+const App = {
+  view: () => [
+    m(HookedCounter),
+  ]
+};
+
+m.mount(
+  document.querySelector("#root"),
+  App
+);
+
+  </script>
+</body>
+</html>

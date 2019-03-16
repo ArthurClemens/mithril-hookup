@@ -37,8 +37,8 @@ describe("withHooks", function() {
   });
 
   it("should pass extra arguments", function() {
-    const HookedCounter = withHooks(Counter, null, { initialCount: 2 });
-    const expected = "<div>2</div><button>More</button>";
+    const HookedCounter = withHooks(Counter, null, { initialCount: 99 });
+    const expected = "<div>99</div><button>More</button>";
 
     return render([
       m(HookedCounter)
