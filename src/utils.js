@@ -4,8 +4,10 @@ const hookupComponent = component =>
   hookup((vnode, hooks) => (
     component({ ...vnode.attrs, ...hooks })
   ));
-  
-export const withHooks = (component, customHooks = () => {}) =>
-  hookupComponent(
-    hooks => component({ ...hooks, ...customHooks(hooks) })
+
+export const withHooks = (component, customHooks, rest = {}) => {
+  const customHooksFn = customHooks || (() => {});
+  return hookupComponent(
+    hooks => component({ ...hooks, ...customHooksFn(hooks), ...rest })
   );
+};

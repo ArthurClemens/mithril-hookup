@@ -1,6 +1,6 @@
 {
   "name": "mithril-hookup",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Hooks for Mithril",
   "main": "dist/mithril-hookup",
   "module": "dist/mithril-hookup.mjs",
@@ -13,9 +13,11 @@
     "server:start": "http-server -p 8080 .",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
+    "test": "npm run test:mocha && npm run test:cypress",
     "test:mocha": "mocha",
     "test:cypress": "start-server-and-test server:start 8080 cypress:run",
-    "test:cypress:i": "npm-run-all --parallel server:start cypress:open"
+    "test:cypress:i": "npm-run-all --parallel server:start cypress:open",
+    "size": "gzip -c dist/mithril-hookup.js | wc -c"
   },
   "files": [
     "dist",
@@ -38,7 +40,7 @@
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
-    "cypress": "^3.1.5",
+    "cypress": "^3.2.0",
     "http-server": "^0.11.1",
     "mithril": "2.0.0-rc.4",
     "mithril-node-render": "2.3.1",
@@ -54,7 +56,7 @@
     "rollup-plugin-pathmodify": "^1.0.1",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-watch": "^4.3.1",
-    "start-server-and-test": "^1.7.11"
+    "start-server-and-test": "^1.7.12"
   },
   "peerDependencies": {
     "mithril": "2.0.0-rc.4"
