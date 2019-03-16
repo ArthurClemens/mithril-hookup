@@ -232,9 +232,7 @@
 
   const withHooks = function withHooks(component, customHooks) {
     let rest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-    const customHooksFn = customHooks || (() => {});
-
+    const customHooksFn = customHooks !== undefined && customHooks !== null ? customHooks : () => {};
     return hookupComponent(hooks => component(_objectSpread({}, hooks, customHooksFn(hooks), rest)));
   };
 
@@ -251,31 +249,18 @@
     }
   });
 
-  const Counter = ({ initialCount, useCount }) => {
-
-    const [count, increment, decrement] = useCount(initialCount);
-
-    return m("div", [
-      m("p", 
-        `Count: ${count}`
-      ),
-      m("button", 
-        {
-          disabled: count === 0,
-          onclick: () => decrement()
-        },
-        "Less"
-      ),
-      m("button", 
-        {
-          onclick: () => increment()
-        },
-        "More"
-      )
+  const Counter = ({ initialCount, useCount, extra }) => {
+    const [count, setCount] = useCount(initialCount);
+    return m("div[data-test-id=counter]", [
+      m("div", m("span[data-test-id=extra]", extra)),
+      m("div", m("span[data-test-id=count]", count)),
+      m("button[data-test-id=add-count]", {
+        onclick: () => setCount(count + 1)
+      }, "More"),
     ]);
   };
 
-  const HookedCounter = withHooks(Counter, customHooks);
+  const HookedCounter = withHooks(Counter, customHooks, { initialCount: 99, extra: "extra" });
 
   const App = {
     view: () =>
