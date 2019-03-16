@@ -36,6 +36,10 @@ const DomElementSize = hookup((vnode, { useState, useLayoutEffect, useRef }) => 
       { onclick: () => setElementSize(s => s + 10) },
       "Grow"
     ),
+    m("button[data-test-id=render]", 
+      { onclick: () => {} },
+      "Trigger render"
+    ),
     m("div", 
       {
         oncreate: vnode => (

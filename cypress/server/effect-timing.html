@@ -7,22 +7,36 @@
 const hookup = mithrilHookup.hookup;
 
 const timings = {
-  useEffect: undefined,
-  useLayoutEffect: undefined,
+  useEffect: 0,
+  useLayoutEffect: 0,
 };
 
 const EffectTimings = hookup((vnode, { useEffect, useLayoutEffect }) => {
 
   useLayoutEffect(
     () => {
-      timings.useLayoutEffect = new Date().getTime();
+      timings.useLayoutEffect += new Date().getTime();
     },
     []
   );
 
   useEffect(
     () => {
-      timings.useEffect = new Date().getTime();
+      timings.useEffect += new Date().getTime();
+    },
+    []
+  );
+
+  useEffect(
+    () => {
+      timings.useEffect += new Date().getTime();
+    },
+    []
+  );
+
+  useLayoutEffect(
+    () => {
+      timings.useLayoutEffect += new Date().getTime();
     },
     []
   );
