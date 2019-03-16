@@ -6,7 +6,9 @@ const hookupComponent = component =>
   ));
 
 export const withHooks = (component, customHooks, rest = {}) => {
-  const customHooksFn = customHooks || (() => {});
+  const customHooksFn = customHooks !== undefined && customHooks !== null
+    ? customHooks
+    : () => {};
   return hookupComponent(
     hooks => component({ ...hooks, ...customHooksFn(hooks), ...rest })
   );

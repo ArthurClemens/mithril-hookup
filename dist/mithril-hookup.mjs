@@ -227,9 +227,7 @@ const hookupComponent = component => hookup((vnode, hooks) => component(_objectS
 
 const withHooks = function withHooks(component, customHooks) {
   let rest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-  const customHooksFn = customHooks || (() => {});
-
+  const customHooksFn = customHooks !== undefined && customHooks !== null ? customHooks : () => {};
   return hookupComponent(hooks => component(_objectSpread({}, hooks, customHooksFn(hooks), rest)));
 };
 
