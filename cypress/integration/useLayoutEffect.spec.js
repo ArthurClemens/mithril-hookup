@@ -4,9 +4,12 @@ describe("useLayoutEffect", () => {
 
   before(() => {
     cy.visit("/useLayoutEffect");
+    cy.wait(100); // SMELL: to make sure the DOM elements are ready = Cypress artefact
   });
 
   it("should get the size of a dom element", () => {
+    cy.get("[data-test-id=measuredHeight]").should("exist");
+    
     cy.get("[data-test-id=elementSize]").should("contain", "100");
     cy.get("[data-test-id=measuredHeight]").should("contain", "100");
     cy.get("[data-test-id=button]").click();

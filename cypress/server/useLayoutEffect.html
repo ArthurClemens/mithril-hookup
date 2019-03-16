@@ -1,7 +1,7 @@
 <html>
 <body>
   <div id="root"></div>
-  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <script src="./js/mithril@1.1.6.js"></script>
   <script src="../../dist/mithril-hookup.js"></script>
   <script>
 const hookup = mithrilHookup.hookup;
@@ -11,7 +11,7 @@ const DomElementSize = hookup((vnode, { useState, useLayoutEffect, useRef }) => 
   const [measuredHeight, setMeasuredHeight] = useState(0);
   const [inited, setInited] = useState(false);
   const domElement = useRef();
-
+  
   useLayoutEffect(
     () => {
       domElement.current && setMeasuredHeight(domElement.current.offsetHeight)
@@ -20,19 +20,6 @@ const DomElementSize = hookup((vnode, { useState, useLayoutEffect, useRef }) => 
   )
   return m("[data-test-id=DomElementSize]", [
     m("h2", "DomElementSize"),
-    m("div", 
-      {
-        oncreate: vnode => (
-          domElement.current = vnode.dom,
-          setInited(true)
-        ),
-        style: {
-          width: `${elementSize}px`,
-          height: `${elementSize}px`,
-          backgroundColor: "#333"
-        }
-      }
-    ),
     m("p", [
       m("span", "element size: "),
       m("span[data-test-id=elementSize]", elementSize)
@@ -49,13 +36,24 @@ const DomElementSize = hookup((vnode, { useState, useLayoutEffect, useRef }) => 
       { onclick: () => setElementSize(s => s + 10) },
       "Grow"
     ),
+    m("div", 
+      {
+        oncreate: vnode => (
+          domElement.current = vnode.dom,
+          setInited(true)
+        ),
+        style: {
+          width: `${elementSize}px`,
+          height: `${elementSize}px`,
+          backgroundColor: "#333"
+        }
+      }
+    ),
   ]);
 });
 
 const App = {
-  view: () => [
-    m(DomElementSize),
-  ]
+  view: () => m(DomElementSize)
 }
 
 m.mount(
