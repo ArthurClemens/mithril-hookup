@@ -20,7 +20,7 @@ const targetConfig = Object.assign({}, baseConfig, {
 });
 targetConfig.plugins.push(
   babel({
-    configFile: "./babel.config.umd.js"
+    configFile: "../../babel.config.umd.js"
   })
 );
 targetConfig.plugins.push(terser());

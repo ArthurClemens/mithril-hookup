@@ -1,0 +1,31 @@
+{
+  "name": "mithril-hookup",
+  "version": "0.2.5",
+  "description": "Hooks for Mithril",
+  "main": "dist/mithril-hookup",
+  "module": "dist/mithril-hookup.mjs",
+  "scripts": {
+    "lint": "eslint ./src",
+    "build": "npm run clean && npm run rollup",
+    "rollup": "../../node_modules/rollup/bin/rollup -c ../../scripts/rollup.umd.js && ../../node_modules/rollup/bin/rollup -c ../../scripts/rollup.es.js",
+    "clean": "rimraf dist/*",
+    "size": "gzip -c dist/mithril-hookup.js | wc -c"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "author": "Arthur Clemens <arthurclemens@gmail.com> (http://visiblearea.com)",
+  "contributors": [
+    "Barney Carroll <barney.carroll@barneycarroll.com> (http://barneycarroll.com/)"
+  ],
+  "homepage": "https://github.com/ArthurClemens/mithril-hookup",
+  "license": "MIT",
+  "devDependencies": {
+    "mithril": "2.0.0-rc.4",
+    "rimraf": "^2.6.3"
+  },
+  "peerDependencies": {
+    "mithril": "2.0.0-rc.4"
+  }
+}

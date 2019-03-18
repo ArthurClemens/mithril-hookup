@@ -6,7 +6,7 @@ require("mithril/test-utils/browserMock")(global);
 const m = require("mithril");
 global.m = m;
 const render = require("mithril-node-render");
-const { withHooks } = require("../dist/mithril-hookup.js");
+const { withHooks } = require("mithril-hookup");
 const debug = require("./debug");
 
 const Counter = ({ useState, initialCount }) => {

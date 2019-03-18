@@ -18,7 +18,7 @@ const targetConfig = Object.assign({}, baseConfig, {
 });
 targetConfig.plugins.push(
   babel({
-    configFile: "./babel.config.es.js"
+    configFile: "../../babel.config.es.js"
   })
 );
 export default targetConfig;

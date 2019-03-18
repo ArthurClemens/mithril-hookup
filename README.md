@@ -1,5 +1,7 @@
 # mithril-hookup
 
+Use hooks in Mithril.
+
 - [Introduction](#introduction)
 - [Online demos](#online-demos)
 - [Usage](#usage)

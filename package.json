@@ -1,32 +1,8 @@
 {
-  "name": "mithril-hookup",
+  "name": "mithril-hookup-repo",
   "version": "0.2.5",
   "description": "Hooks for Mithril",
-  "main": "dist/mithril-hookup",
-  "module": "dist/mithril-hookup.mjs",
-  "scripts": {
-    "lint": "eslint ./src",
-    "build": "npm run clean && npm run rollup && npm run build-test",
-    "rollup": "./node_modules/rollup/bin/rollup -c ./scripts/rollup.umd.js && ./node_modules/rollup/bin/rollup -c ./scripts/rollup.es.js",
-    "clean": "rimraf dist/js/*",
-    "build-test": "./node_modules/rollup/bin/rollup cypress/server/js/transpiled-source.mjs --file cypress/server/js/transpiled.js --format umd",
-    "server:start": "http-server -p 8080 .",
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open",
-    "test": "npm run test:mocha && npm run test:cypress",
-    "test:mocha": "mocha",
-    "test:cypress": "start-server-and-test server:start 8080 cypress:run",
-    "test:cypress:i": "npm-run-all --parallel server:start cypress:open",
-    "size": "gzip -c dist/mithril-hookup.js | wc -c"
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "author": "Arthur Clemens <arthurclemens@gmail.com> (http://visiblearea.com)",
-  "contributors": [
-    "Barney Carroll <barney.carroll@barneycarroll.com> (http://barneycarroll.com/)"
-  ],
+  "private": true,
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -38,17 +14,19 @@
     "@babel/plugin-transform-runtime": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
     "cypress": "^3.2.0",
     "http-server": "^0.11.1",
-    "mithril": "2.0.0-rc.4",
+    "lerna": "^3.13.1",
+    "mini-css-extract-plugin": "^0.5.0",
     "mithril-node-render": "2.3.1",
     "mithril-query": "^2.5.2",
+    "mithril": "2.0.0-rc.4",
     "mocha": "^6.0.2",
     "npm-run-all": "4.1.5",
     "rimraf": "^2.6.3",
-    "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-eslint": "^5.0.0",
@@ -56,9 +34,13 @@
     "rollup-plugin-pathmodify": "^1.0.1",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-watch": "^4.3.1",
-    "start-server-and-test": "^1.7.12"
-  },
-  "peerDependencies": {
-    "mithril": "2.0.0-rc.4"
+    "rollup": "^1.6.0",
+    "start-server-and-test": "^1.7.12",
+    "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "1.2.3",
+    "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-cli": "^3.2.3",
+    "webpack": "^4.29.6",
+    "webpack-dev-server": "^3.2.1"
   }
 }
