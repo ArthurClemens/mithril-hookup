@@ -1,10 +1,5 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const { withHooks } = mithrilHookup;
+import m from "mithril";
+import { withHooks } from "mithril-hookup";
 
 const myCustomHooks = ({ useState }) => {
   // Use a name to access it from hook functions
@@ -29,7 +24,7 @@ const myCustomHooks = ({ useState }) => {
         arr,
         add => setArr(arr.concat(add)),
         remove => setArr(arr.filter(item => item !== remove))
-      ]
+      ];
     },
   };
   return hooks;
@@ -37,7 +32,7 @@ const myCustomHooks = ({ useState }) => {
 
 const Counter = ({ initialCount, useState, useCounter, extra }) => {
   const [count, setCount] = useState(initialCount);
-  const [counters, addCounter, removeCounter] = useCounter();
+  const [counters, addCounter,] = useCounter();
   return m("div[data-test-id=counter]", [
     m("div", m("span[data-test-id=extra]", extra)),
     m("div", m("span[data-test-id=count]", count)),
@@ -53,17 +48,8 @@ const Counter = ({ initialCount, useState, useCounter, extra }) => {
 
 const HookedCounter = withHooks(Counter, myCustomHooks, { initialCount: 99, extra: "extra" });
 
-const App = {
+export default ({
   view: () => [
     m(HookedCounter),
   ]
-};
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});

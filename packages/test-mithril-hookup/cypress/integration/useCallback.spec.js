@@ -3,7 +3,7 @@
 describe("useCallback", () => {
 
   before(() => {
-    cy.visit("/useCallback");
+    cy.visit("/TestHookupUseCallback");
   });
 
   it("should store a memoized callback function and only update it after updating a variable", () => {

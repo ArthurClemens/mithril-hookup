@@ -3,7 +3,7 @@
 describe("withHooks", () => {
 
   before(() => {
-    cy.visit("/withHooks");
+    cy.visit("/TestWithHooks");
   });
 
   it("should increase the 'with custom hooks' count with setCount", () => {

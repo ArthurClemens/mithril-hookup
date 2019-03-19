@@ -1,6 +1,5 @@
 {
   "name": "mithril-hookup-repo",
-  "version": "0.2.5",
   "description": "Hooks for Mithril",
   "private": true,
   "license": "MIT",

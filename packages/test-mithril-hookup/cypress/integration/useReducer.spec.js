@@ -3,7 +3,7 @@
 describe("useReducer", () => {
 
   before(() => {
-    cy.visit("/useReducer");
+    cy.visit("/TestUseReducer");
   });
 
   it("should set the initial state using an init function", () => {

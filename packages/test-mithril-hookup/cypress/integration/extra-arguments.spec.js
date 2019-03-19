@@ -3,7 +3,7 @@
 describe("withHooks - extra arguments", () => {
 
   before(() => {
-    cy.visit("/extra-arguments");
+    cy.visit("/TestWithHooksExtraArguments");
   });
 
   it("should show extra arguments", () => {

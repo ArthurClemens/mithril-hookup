@@ -3,7 +3,7 @@
 describe("update rules", () => {
 
   before(() => {
-    cy.visit("/update-rules");
+    cy.visit("/TestHookupUpdateRules");
   });
 
   it("empty array: should run the effect only once with mount only", () => {

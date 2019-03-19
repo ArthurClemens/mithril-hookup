@@ -3,7 +3,7 @@
 describe("useLayoutEffect", () => {
 
   before(() => {
-    cy.visit("/useLayoutEffect");
+    cy.visit("/TestHookupUseLayoutEffect");
   });
 
   it("should get the size of a dom element", () => {

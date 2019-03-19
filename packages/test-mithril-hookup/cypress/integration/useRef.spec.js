@@ -3,7 +3,7 @@
 describe("useRef", () => {
 
   before(() => {
-    cy.visit("/useRef");
+    cy.visit("/TestHookupUseRef");
   });
 
   it("should get the dom element and retrieve attributes", () => {

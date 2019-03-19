@@ -3,7 +3,7 @@
 describe("custom hooks", () => {
 
   before(() => {
-    cy.visit("/custom-hooks");
+    cy.visit("/TestHookupCustomHooks");
   });
 
   it("should use a custom hook counter function", () => {

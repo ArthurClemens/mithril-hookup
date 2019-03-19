@@ -3,7 +3,7 @@
 describe("effect timing", () => {
 
   before(() => {
-    cy.visit("/effect-timing");
+    cy.visit("/TestEffectTiming");
   });
 
   it("should show layout effects called after effects", () => {

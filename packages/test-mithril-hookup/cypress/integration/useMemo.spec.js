@@ -3,7 +3,7 @@
 describe("useMemo", () => {
 
   before(() => {
-    cy.visit("/useMemo");
+    cy.visit("/TestHookupUseMemo");
   });
 
   it("should store a memoized value and only update it after updating a variable", () => {

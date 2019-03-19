@@ -1,10 +1,5 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const { withHooks } = mithrilHookup;
+import m from "mithril";
+import { withHooks } from "mithril-hookup";
 
 const myCustomHooks = ({ useState }) => {
   // Use a name to access it from hook functions
@@ -63,18 +58,9 @@ const SimpleCounter = ({ initialCount, useState, useCounter }) => {
 const HookedCounter = withHooks(Counter, myCustomHooks);
 const HookedSimpleCounter = withHooks(SimpleCounter);
 
-const App = {
+export default ({
   view: () => [
     m(HookedCounter, { initialCount: 1 }),
     m(HookedSimpleCounter, { initialCount: 10 }),
   ]
-};
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});

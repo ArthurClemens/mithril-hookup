@@ -3,7 +3,7 @@
 describe("useEffect", () => {
 
   before(() => {
-    cy.visit("/useEffect");
+    cy.visit("/TestHookupUseEffect");
   });
 
   it("should render with the initial value", () => {

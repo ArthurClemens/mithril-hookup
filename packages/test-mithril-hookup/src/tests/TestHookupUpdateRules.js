@@ -1,10 +1,5 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const hookup = mithrilHookup.hookup;
+import m from "mithril";
+import { hookup } from "mithril-hookup";
 
 let renderRunCounts = {
   mountOnly: 0,
@@ -23,15 +18,15 @@ const RunCountOnMount = hookup((vnode, { useState, useEffect }) => {
     []
   );
   return m("[data-test-id=RunCountOnMount]", [
-  m("h2", "RunCountOnMount"),
-    m("p[data-test-id=effectRunCount]", 
+    m("h2", "RunCountOnMount"),
+    m("p[data-test-id=effectRunCount]",
       `effect called: ${effectRunCount}`
     ),
-    m("p[data-test-id=renderRunCounts]", 
+    m("p[data-test-id=renderRunCounts]",
       `render called: ${renderRunCounts.mountOnly}`
     ),
-    m("button[data-test-id=button]", 
-      { onclick: () => {} },
+    m("button[data-test-id=button]",
+      { onclick: () => { } },
       "Trigger render"
     ),
   ]);
@@ -50,13 +45,13 @@ const RunCountOnChange = hookup((vnode, { useState, useEffect }) => {
   );
   return m("[data-test-id=RunCountOnChange]", [
     m("h2", "RunCountOnChange"),
-    m("p[data-test-id=effectRunCount]", 
+    m("p[data-test-id=effectRunCount]",
       `effect called: ${effectRunCount}`
     ),
-    m("p[data-test-id=renderRunCounts]", 
+    m("p[data-test-id=renderRunCounts]",
       `render called: ${renderRunCounts.onChange}`
     ),
-    m("button[data-test-id=button]", 
+    m("button[data-test-id=button]",
       { onclick: () => setSomeValue(someValue + 1) },
       "Trigger render"
     ),
@@ -75,33 +70,24 @@ const RunCountOnRender = hookup((vnode, { useState, useEffect }) => {
     [someValue]
   );
   return m("[data-test-id=RunCountOnRender]", [
-  m("h2", "RunCountOnRender"),
-    m("p[data-test-id=effectRunCount]", 
+    m("h2", "RunCountOnRender"),
+    m("p[data-test-id=effectRunCount]",
       `effect called: ${effectRunCount}`
     ),
-    m("p[data-test-id=renderRunCounts]", 
+    m("p[data-test-id=renderRunCounts]",
       `render called: ${renderRunCounts.render}`
     ),
-    m("button[data-test-id=button]", 
+    m("button[data-test-id=button]",
       { onclick: () => setSomeValue(someValue + 1) },
       "Trigger render"
     ),
   ]);
 });
 
-const App = {
+export default ({
   view: () => [
     m(RunCountOnMount),
     m(RunCountOnChange),
     m(RunCountOnRender),
   ]
-}
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});

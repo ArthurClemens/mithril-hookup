@@ -1,19 +1,14 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const hookup = mithrilHookup.hookup;
+import m from "mithril";
+import { hookup } from "mithril-hookup";
 
 const customCounterHooks = ({ useState }) => ({
   useCount: (initialValue = 0) => {
-    const [count, setCount] = useState(initialValue)
+    const [count, setCount] = useState(initialValue);
     return [
       count,                      // value
       () => setCount(count + 1),  // increment
       () => setCount(count - 1)   // decrement
-    ]
+    ];
   }
 });
 
@@ -65,7 +60,7 @@ const customItemsHooks = ({ useState }) => {
         arr,
         add => setArr(arr.concat(add)),
         remove => setArr(arr.filter(item => item !== remove))
-      ]
+      ];
     },
   };
   return hooks;
@@ -73,7 +68,7 @@ const customItemsHooks = ({ useState }) => {
 
 const ItemsCustomHooks = hookup((vnode, { useCounter }) => {
   const [counters, addCounter, removeCounter] = useCounter();
-  const [lastItem, ...rest] = counters.reverse();
+  const [lastItem, ] = counters.reverse();
 
   return m("[data-test-id=ItemsCustomHooks]", [
     m("h2", "ItemsCustomHooks"),
@@ -97,18 +92,9 @@ const ItemsCustomHooks = hookup((vnode, { useCounter }) => {
   ]);
 }, customItemsHooks);
 
-const App = {
+export default ({
   view: () => [
     m(CounterCustomHooks),
     m(ItemsCustomHooks),
   ]
-}
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});

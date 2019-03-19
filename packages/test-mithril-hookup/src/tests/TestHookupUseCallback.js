@@ -1,10 +1,5 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const hookup = mithrilHookup.hookup;
+import m from "mithril";
+import { hookup } from "mithril-hookup";
 
 const someCallback = () => {
   return null;
@@ -47,17 +42,8 @@ const Callback = hookup((vnode, { useCallback, useState }) => {
   ]);
 });
 
-const App = {
+export default ({
   view: () => [
     m(Callback),
   ]
-}
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});

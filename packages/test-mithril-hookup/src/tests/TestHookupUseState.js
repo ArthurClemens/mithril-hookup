@@ -1,13 +1,8 @@
-<html>
-<body>
-  <div id="root"></div>
-  <script src="./js/mithril@1.1.6.js"></script>
-  <script src="../../node_modules/mithril-hookup/dist/mithril-hookup.js"></script>
-  <script>
-const hookup = mithrilHookup.hookup;
+import m from "mithril";
+import { hookup } from "mithril-hookup";
 
 const InitialValue = hookup((vnode, { useState }) => {
-  const [count, setCount] = useState(vnode.attrs.initialCount);
+  const [count, ] = useState(vnode.attrs.initialCount);
   return m("[data-test-id=InitialValue]", [
     m("h2", "InitialValue"),
     m("p[data-test-id=count]", 
@@ -51,19 +46,10 @@ const Interactive = hookup((vnode, { useState }) => {
   ]);
 });
 
-const App = {
+export default ({
   view: () => [
     m(InitialValue, { initialCount: 1 }),
     m(WithEffect, { initialCount: 100 }),
     m(Interactive, { initialCount: 1000 })
   ]
-}
-
-m.mount(
-  document.querySelector("#root"),
-  App
-);
-
-  </script>
-</body>
-</html>
+});
