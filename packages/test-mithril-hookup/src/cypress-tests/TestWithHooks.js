@@ -24,7 +24,7 @@ const myCustomHooks = ({ useState }) => {
         arr,
         add => setArr(arr.concat(add)),
         remove => setArr(arr.filter(item => item !== remove))
-      ]
+      ];
     },
   };
   return hooks;
@@ -32,7 +32,7 @@ const myCustomHooks = ({ useState }) => {
 
 const Counter = ({ initialCount, useState, useCounter }) => {
   const [count, setCount] = useState(initialCount);
-  const [counters, addCounter, removeCounter] = useCounter();
+  const [counters, addCounter,] = useCounter();
   return m("div[data-test-id=counter]", [
     m("div", m("span[data-test-id=count]", count)),
     m("button[data-test-id=add-count]", {
@@ -45,7 +45,7 @@ const Counter = ({ initialCount, useState, useCounter }) => {
   ]);
 };
 
-const SimpleCounter = ({ initialCount, useState, useCounter }) => {
+const SimpleCounter = ({ initialCount, useState }) => {
   const [count, setCount] = useState(initialCount);
   return m("div[data-test-id=simple-counter]", [
     m("div", m("span[data-test-id=count]", count)),
@@ -55,12 +55,31 @@ const SimpleCounter = ({ initialCount, useState, useCounter }) => {
   ]);
 };
 
+const SimpleCounterWithChildren = ({ initialCount, useState, children }) => {
+  const [count, setCount] = useState(initialCount);
+  return m("div[data-test-id=simple-counter-with-children]", [
+    m("div", m("span[data-test-id=count]", count)),
+    m("button[data-test-id=add-count]", {
+      onclick: () => setCount(count + 1)
+    }, "More"),
+    m("div[data-test-id=children]",
+      children
+    )
+  ]);
+};
+
 const HookedCounter = withHooks(Counter, myCustomHooks);
 const HookedSimpleCounter = withHooks(SimpleCounter);
+const HookedSimpleCounterWithChildren = withHooks(SimpleCounterWithChildren);
 
 export default ({
   view: () => [
     m(HookedCounter, { initialCount: 1 }),
     m(HookedSimpleCounter, { initialCount: 10 }),
+    m(HookedSimpleCounterWithChildren, { initialCount: 10 }, [
+      m("div", "One"),
+      m("div", "Two"),
+      m("div", "Three"),
+    ]),
   ]
 });

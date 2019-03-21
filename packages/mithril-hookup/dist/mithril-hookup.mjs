@@ -224,7 +224,9 @@ const hookup = (closure, addHooks) => () =>
 };
 const call = Function.prototype.call.bind(Function.prototype.call);
 
-const hookupComponent = component => hookup((vnode, hooks) => component(_objectSpread({}, vnode.attrs, hooks)));
+const hookupComponent = component => hookup((vnode, hooks) => component(_objectSpread({}, vnode.attrs, hooks, {
+  children: vnode.children
+})));
 
 const withHooks = function withHooks(component, customHooksFn) {
   let rest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};

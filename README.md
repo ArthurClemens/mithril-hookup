@@ -5,22 +5,23 @@ Use hooks in Mithril.
 - [Introduction](#introduction)
 - [Online demos](#online-demos)
 - [Usage](#usage)
-- [Hooks and application logic](#hooks-and-application-logic)
-- [Rendering rules](#rendering-rules)
-  - [With useState](#with-usestate)
-  - [With other hooks](#with-other-hooks)
-  - [Cleaning up](#cleaning-up)
-- [Default hooks](#default-hooks)
-  - [useState](#usestate)
-  - [useEffect](#useeffect)
-  - [useLayoutEffect](#uselayouteffect)
-  - [useReducer](#usereducer)
-  - [useRef](#useref)
-  - [useMemo](#usememo)
-  - [useCallback](#usecallback)
-  - [Omitted hooks](#omitted-hooks)
-- [Custom hooks](#custom-hooks)
-- [`hookup` function](#hookup-function)
+  - [Hooks and application logic](#hooks-and-application-logic)
+  - [Rendering rules](#rendering-rules)
+    - [With useState](#with-usestate)
+    - [With other hooks](#with-other-hooks)
+    - [Cleaning up](#cleaning-up)
+  - [Default hooks](#default-hooks)
+    - [useState](#usestate)
+    - [useEffect](#useeffect)
+    - [useLayoutEffect](#uselayouteffect)
+    - [useReducer](#usereducer)
+    - [useRef](#useref)
+    - [useMemo](#usememo)
+    - [useCallback](#usecallback)
+    - [Omitted hooks](#omitted-hooks)
+  - [Custom hooks](#custom-hooks)
+  - [`hookup` function](#hookup-function)
+  - [Children](#children)
 - [Compatibility](#compatibility)
 - [Size](#size)
 - [Supported browsers](#supported-browsers)
@@ -82,7 +83,7 @@ import { withHooks } from "mithril-hookup"
 ```
 
 
-## Hooks and application logic
+### Hooks and application logic
 
 Hooks can be defined outside of the component, imported from other files. This makes it possible to define utility functions to be shared across the application.
 
@@ -90,14 +91,14 @@ Hooks can be defined outside of the component, imported from other files. This m
 
 
 
-## Rendering rules
+### Rendering rules
 
-### With useState
+#### With useState
 
 Mithril's `redraw` is called when the state is initially set, and every time a state changes value.
 
 
-### With other hooks
+#### With other hooks
 
 Hook functions are always called at the first render.
 
@@ -122,7 +123,7 @@ mithril-hookup follows the React Hooks API:
 Note that effect hooks do not cause a re-render themselves.
 
 
-### Cleaning up
+#### Cleaning up
 
 If a hook function returns a function, that function is called at unmount (Mithril lifecycle function [onremove](https://mithril.js.org/lifecycle-methods.html#onremove)).
 
@@ -142,12 +143,12 @@ useEffect(
 At cleanup Mithril's `redraw` is called.
 
 
-## Default hooks
+### Default hooks
 
 The [React Hooks documentation](https://reactjs.org/docs/hooks-intro.html) provides excellent usage examples for default hooks. Let us suffice here with shorter descriptions.
 
 
-### useState
+#### useState
 
 Provides the state value and a setter function:
 
@@ -175,7 +176,7 @@ useEffect(
 ```
 
 
-### useEffect
+#### useEffect
 
 Lets you perform side effects:
 
@@ -195,7 +196,7 @@ useEffect(
 ```
 
 
-### useLayoutEffect
+#### useLayoutEffect
 
 Similar to `useEffect`, but fires synchronously after all DOM mutations. Use this when calculations must be done on DOM objects.
 
@@ -208,7 +209,7 @@ useLayoutEffect(
 )
 ```
 
-### useReducer
+#### useReducer
 
 From the [React docs](https://reactjs.org/docs/hooks-reference.html#usereducer):
 
@@ -253,7 +254,7 @@ m(HookedCounter, { initialCount: 0 })
 ```
 
 
-### useRef
+#### useRef
 
 The "ref" object is a generic container whose `current` property is mutable and can hold any value.
 
@@ -312,7 +313,7 @@ const HookedTimer = withHooks(Timer)
 ```
 
 
-### useMemo
+#### useMemo
 
 Returns a memoized value.
 
@@ -329,7 +330,7 @@ const Counter = ({ count, useMemo }) => {
 ```
 
 
-### useCallback
+#### useCallback
 
 Returns a memoized callback.
 
@@ -355,7 +356,7 @@ if (previousCallback !== memoizedCallback) {
 }
 ```
 
-### Omitted hooks
+#### Omitted hooks
 
 These React hooks make little sense with Mithril and are not included:
 
@@ -363,7 +364,7 @@ These React hooks make little sense with Mithril and are not included:
 * `useImperativeHandle`
 * `useDebugValue`
 
-## Custom hooks
+### Custom hooks
 
 Custom hooks are created with a factory function. The function receives the default hooks (automatically), and should return an object with custom hook functions:
 
@@ -440,7 +441,7 @@ m(HookedCounter, { initialCount: 0 })
 
 
 
-## `hookup` function
+### `hookup` function
 
 `withHooks` is a wrapper function around the function `hookup`. It may be useful to know how this function works.
 
@@ -503,6 +504,31 @@ const Counter = hookup(
     // ...
   },
   customHooks
+)
+```
+
+### Children
+
+Child elements are accessed through the variable `children`:
+
+```javascript
+import { withHooks } from "mithril-hookup"
+
+const Counter = ({ useState, initialCount, children }) => {
+  const [count, setCount] = useState(initialCount)
+  return [
+    m("div", count),
+    children
+  ]
+}
+
+const HookedCounter = withHooks(Counter)
+
+m(HookedCounter,
+  { initialCount: 1 },
+  [
+    m("div", "This is a child element")
+  ]
 )
 ```
 

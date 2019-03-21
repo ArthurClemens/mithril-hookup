@@ -2,18 +2,18 @@ import m from "mithril";
 import CounterController from "./custom-hooks-usereducer";
 import Toggle from "./toggle";
 
-import TestHookupCustomHooks from "./tests/TestHookupCustomHooks";
-import TestHookupUseState from "./tests/TestHookupUseState";
-import TestHookupUseRef from "./tests/TestHookupUseRef";
-import TestHookupUseCallback from "./tests/TestHookupUseCallback";
-import TestHookupUseEffect from "./tests/TestHookupUseEffect";
-import TestHookupUseLayoutEffect from "./tests/TestHookupUseLayoutEffect";
-import TestHookupUseMemo from "./tests/TestHookupUseMemo";
-import TestUseReducer from "./tests/TestUseReducer";
-import TestHookupUpdateRules from "./tests/TestHookupUpdateRules";
-import TestWithHooks from "./tests/TestWithHooks";
-import TestEffectTiming from "./tests/TestEffectTiming";
-import TestWithHooksExtraArguments from "./tests/TestWithHooksExtraArguments";
+import TestHookupCustomHooks from "./cypress-tests/TestHookupCustomHooks";
+import TestHookupUseState from "./cypress-tests/TestHookupUseState";
+import TestHookupUseRef from "./cypress-tests/TestHookupUseRef";
+import TestHookupUseCallback from "./cypress-tests/TestHookupUseCallback";
+import TestHookupUseEffect from "./cypress-tests/TestHookupUseEffect";
+import TestHookupUseLayoutEffect from "./cypress-tests/TestHookupUseLayoutEffect";
+import TestHookupUseMemo from "./cypress-tests/TestHookupUseMemo";
+import TestUseReducer from "./cypress-tests/TestUseReducer";
+import TestHookupUpdateRules from "./cypress-tests/TestHookupUpdateRules";
+import TestWithHooks from "./cypress-tests/TestWithHooks";
+import TestEffectTiming from "./cypress-tests/TestEffectTiming";
+import TestWithHooksExtraArguments from "./cypress-tests/TestWithHooksExtraArguments";
 
 const links = [
   ["Simple toggle", "/toggle", Toggle],
@@ -53,12 +53,16 @@ const createMenu = currentRoute => (
         link(href, currentRoute, label)
       )
     ),
-    m("p.menu-label", "Cypress tests"),
-    m("ul.menu-list", 
-      tests.map(([label, href]) =>
-        link(href, currentRoute, label)
+    tests.length
+      ? (
+        m("p.menu-label", "Cypress tests"),
+        m("ul.menu-list", 
+          tests.map(([label, href]) =>
+            link(href, currentRoute, label)
+          )
+        )
       )
-    )
+      : null
   ])
 );
 

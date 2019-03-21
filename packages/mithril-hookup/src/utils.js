@@ -2,7 +2,7 @@ import { hookup } from "./hookup";
 
 const hookupComponent = component =>
   hookup((vnode, hooks) => (
-    component({ ...vnode.attrs, ...hooks })
+    component({ ...vnode.attrs, ...hooks, children: vnode.children })
   ));
 
 export const withHooks = (component, customHooksFn, rest = {}) =>

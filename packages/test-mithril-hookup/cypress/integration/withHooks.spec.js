@@ -24,4 +24,13 @@ describe("withHooks", () => {
     cy.get("[data-test-id=simple-counter] [data-test-id=count]").should("contain", "11");
   });
 
+  it("should show children", () => {
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=count]").should("contain", "10");
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=add-count]").click();
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=count]").should("contain", "11");
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=children]").should("contain", "One");
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=children]").should("contain", "Two");
+    cy.get("[data-test-id=simple-counter-with-children] [data-test-id=children]").should("contain", "Three");
+  });
+
 });
