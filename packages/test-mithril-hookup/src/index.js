@@ -13,6 +13,7 @@ import TestUseReducer from "./cypress-tests/TestUseReducer";
 import TestHookupUpdateRules from "./cypress-tests/TestHookupUpdateRules";
 import TestWithHooks from "./cypress-tests/TestWithHooks";
 import TestEffectTiming from "./cypress-tests/TestEffectTiming";
+import TestEffectRenderCounts from "./cypress-tests/TestEffectRenderCounts";
 import TestWithHooksExtraArguments from "./cypress-tests/TestWithHooksExtraArguments";
 
 const links = [
@@ -33,6 +34,7 @@ const tests = [
   ["Test withHooks", "/TestWithHooks", TestWithHooks],
   ["Test withHooks extra arguments", "/TestWithHooksExtraArguments", TestWithHooksExtraArguments],
   ["Test effect timing", "/TestEffectTiming", TestEffectTiming],
+  ["Test effect render counts", "/TestEffectRenderCounts", TestEffectRenderCounts],
 ];
 
 const link = (href, currentRoute, label) => 

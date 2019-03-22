@@ -7,7 +7,7 @@ const timings = {
 };
 
 const EffectTimings = hookup((vnode, { useEffect, useLayoutEffect }) => {
-
+  
   useLayoutEffect(
     () => {
       timings.useLayoutEffect += new Date().getTime();
@@ -38,14 +38,18 @@ const EffectTimings = hookup((vnode, { useEffect, useLayoutEffect }) => {
   
   return m("[data-test-id=EffectTimings]", [
     m("h2", "EffectTimings"),
-    timings.useEffect && m("p", [
-      m("div", "useEffect: "),
-      m("div[data-test-id=useEffect]", timings.useEffect.toString())
-    ]),
-    timings.useLayoutEffect && m("p", [
-      m("div", "useLayoutEffect: "),
-      m("div[data-test-id=useLayoutEffect]", timings.useLayoutEffect.toString())
-    ]),
+    timings.useEffect
+      ? m("p", [
+        m("div", "useEffect: "),
+        m("span[data-test-id=useEffect]", timings.useEffect.toString())
+      ])
+      : null,
+    timings.useLayoutEffect
+      ? m("p", [
+        m("div", "useLayoutEffect: "),
+        m("span[data-test-id=useLayoutEffect]", timings.useLayoutEffect.toString())
+      ])
+      : null,
     m("button[data-test-id=button]", 
       { onclick: () => {} },
       "Trigger render"
