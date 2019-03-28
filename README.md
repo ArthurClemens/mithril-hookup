@@ -1,7 +1,16 @@
 # mithril-hookup
 
+## Deprecation
+
+This project has evolved into [mithril-hooks](https://github.com/ArthurClemens/mithril-hooks)
+
+
+## Legacy
+
 Use hooks in Mithril.
 
+- [Deprecation](#deprecation)
+- [Legacy](#legacy)
 - [Introduction](#introduction)
 - [Online demos](#online-demos)
 - [Usage](#usage)
